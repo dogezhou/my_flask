@@ -1,0 +1,1 @@
+@"H:\PycharmRepose\my_flask\venv\Scripts\python.exe" "H:\PycharmRepose\my_flask\venv\Scripts\markdown_py" %*

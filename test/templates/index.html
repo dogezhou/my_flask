@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Hello World!</h1>
+</div>
+
+<!--表单测试-->
+<div class="col-xs-6">
+  <form method="post">
+    <div class="form-group">
+      <label for="name">用户名</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="用户名">
+    </div>
+    <div class="form-group">
+      <label for="password">密码</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+    </div>
+
+    <div class="checkbox">
+      <label>
+        <input type="checkbox"> Check me out
+      </label>
+    </div>
+    <button type="submit" class="btn btn-default">登录</button>
+  </form>
+</div>
+
+<p>本地日期时间为：{{ moment(current_time).format('LLL') }}.</p>
+<p>那是{{ moment(current_time).fromNow(refresh=True) }}.</p>
+{% endblock %}
