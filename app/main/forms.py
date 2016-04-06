@@ -54,10 +54,10 @@ class EditProfileAdminForm(Form):
 
 
 class PostForm(Form):
-    body = PageDownField("有什么新鲜事想告诉大家？", validators=[DataRequired()])
-    submit = SubmitField('发布')
+    body = PageDownField("有什么问题想要问？", validators=[DataRequired()])
+    submit = SubmitField('提问')
 
 
 class CommentForm(Form):
-    body = StringField('写下你的评论...', validators=[DataRequired()])
-    submit = SubmitField('评论')
+    body = StringField('写下你的回答...', validators=[DataRequired()])
+    submit = SubmitField('回答')
