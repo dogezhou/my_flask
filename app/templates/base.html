@@ -6,6 +6,8 @@
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet"
+      href="{{url_for('static', filename='css/bootstrap.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 {% endblock %}
 
@@ -69,6 +71,8 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{url_for('static', filename='js/jquery-2.2.3.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
 {{ super() }}
 {{ moment.include_moment() }}
 {{ moment.lang('zh-cn') }}
