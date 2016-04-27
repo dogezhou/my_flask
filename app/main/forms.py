@@ -61,3 +61,7 @@ class PostForm(Form):
 class CommentForm(Form):
     body = StringField('写下你的回答...', validators=[DataRequired()])
     submit = SubmitField('回答')
+
+class SearchForm(Form):
+    search = StringField('搜索你感兴趣的内容...')
+    submit = SubmitField(r'<span class="glyphicon glyphicon-search" aria-hidden="true"></span>')
