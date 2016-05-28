@@ -8,7 +8,7 @@ from app.decorators import admin_required, permission_required
 from flask import render_template, session, redirect, url_for, current_app, flash, request, make_response
 from .. import db
 from flask_login import login_required, current_user
-from ..models import User, Role, Permission, Post, Comment
+from ..models import User, Role, Permission, Post, Comment, Vote
 from ..email import send_email
 from . import main
 from .forms import NameForm, EditProfileForm, EditProfileAdminForm, PostForm, CommentForm
@@ -246,3 +246,13 @@ def moderate_disable(id):
     db.session.add(comment)
     return redirect(url_for('.moderate',
                             page=request.args.get('page', 1, type=int)))
+
+# 添加投票路由
+@main.route('/vote/<int:comment_id>')
+@login_required
+def vote(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    v = Vote(voted_users=current_user._get_current_object(), voted_comments=comment)
+    db.session.add(v)
+    return redirect(url_for('.post',
+                            id=comment.post_id))

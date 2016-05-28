@@ -282,6 +282,7 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+
     def __repr__(self):
         return '<User %r>' % self.username
 
