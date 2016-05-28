@@ -55,6 +55,11 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
+class Vote(db.Model):
+    voter_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+                         primary_key=True)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'),
+                           primary_key=True)
 
 class Follow(db.Model):
     __tablename__ = 'follows'
@@ -91,6 +96,12 @@ class User(UserMixin, db.Model):
                                 lazy='dynamic',
                                 cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+
+    vote_comments = db.relationship('Vote',
+                                    foreign_keys=[Vote.voter_id],
+                                    backref=db.backref('voted_users', lazy='joined'),
+                                    lazy='dynamic',
+                                    cascade='all, delete-orphan')
 
     @staticmethod
     def generate_fake(count=100):
@@ -358,6 +369,12 @@ class Comment(db.Model):
     disabled = db.Column(db.Boolean)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
+    vote_users = db.relationship('Vote',
+                                    foreign_keys=[Vote.comment_id],
+                                    backref=db.backref('voted_comments', lazy='joined'),
+                                    lazy='dynamic',
+                                    cascade='all, delete-orphan')
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
