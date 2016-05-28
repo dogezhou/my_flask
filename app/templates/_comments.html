@@ -29,6 +29,17 @@
                 <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">删除</a>
                 {% endif %}
             {% endif %}
+
+            <div class="comment-footer">
+                <!-- 添加赞同按钮 -->
+                {% if 1 %}
+                <a href="" class="btn btn-primary">赞同
+                    <span class="badge">{{ 123 }}</span></a>
+                {% else %}
+                <a href="" class="btn btn-default">取消赞同</a>
+                {% endif %}
+
+            </div>
         </div>
     </li>
     {% endfor %}
