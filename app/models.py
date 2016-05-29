@@ -282,6 +282,8 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+    def has_voted(self, comment_id):
+        return self.vote_comments.filter_by(comment_id=comment_id).first() is not None
 
     def __repr__(self):
         return '<User %r>' % self.username

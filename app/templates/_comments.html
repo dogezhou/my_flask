@@ -32,11 +32,12 @@
 
             <div class="comment-footer">
                 <!-- 添加赞同按钮 -->
-                {% if 1 %}
-                <a href="{{ url_for('.vote', comment_id=comment.id) }}" class="btn btn-primary">赞同
+                {% if current_user.has_voted(comment.id) %}
+                <a href="{{ url_for('.unvote', comment_id=comment.id) }}" class="btn btn-default">取消赞同
                     <span class="badge">{{ comment.vote_users.count() }}</span></a>
                 {% else %}
-                <a href="" class="btn btn-default">取消赞同</a>
+                <a href="{{ url_for('.vote', comment_id=comment.id) }}" class="btn btn-primary">赞同
+                    <span class="badge">{{ comment.vote_users.count() }}</span></a>
                 {% endif %}
 
             </div>

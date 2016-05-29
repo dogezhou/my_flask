@@ -256,3 +256,12 @@ def vote(comment_id):
     db.session.add(v)
     return redirect(url_for('.post',
                             id=comment.post_id))
+
+@main.route('/unvote/<int:comment_id>')
+@login_required
+def unvote(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    v = Vote.query.filter_by(voted_comments=comment).first()
+    db.session.delete(v)
+    return redirect(url_for('.post',
+                            id=comment.post_id))
