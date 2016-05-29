@@ -55,11 +55,13 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
+
 class Vote(db.Model):
     voter_id = db.Column(db.Integer, db.ForeignKey('users.id'),
                          primary_key=True)
     comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'),
                            primary_key=True)
+
 
 class Follow(db.Model):
     __tablename__ = 'follows'
@@ -305,6 +307,26 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+class TagBelong(db.Model):
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'),
+                       primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'),
+                        primary_key=True)
+    # 增加tags posts属性
+
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    tag_name = db.Column(db.String(64), unique=True, index=True)
+    tag_body = db.Column(db.Text)
+    tag_posts = db.relationship('TagBelong',
+                                foreign_keys=[TagBelong.tag_id],
+                                backref=db.backref('tags', lazy='joined'),
+                                lazy='dynamic',
+                                cascade='all, delete-orphan')
+
+
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
@@ -313,6 +335,11 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    post_tags = db.relationship('TagBelong',
+                                foreign_keys=[TagBelong.tag_id],
+                                backref=db.backref('posts', lazy='joined'),
+                                lazy='dynamic',
+                                cascade='all, delete-orphan')
 
     @staticmethod
     def generate_fake(count=100):
@@ -374,10 +401,10 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
     vote_users = db.relationship('Vote',
-                                    foreign_keys=[Vote.comment_id],
-                                    backref=db.backref('voted_comments', lazy='joined'),
-                                    lazy='dynamic',
-                                    cascade='all, delete-orphan')
+                                 foreign_keys=[Vote.comment_id],
+                                 backref=db.backref('voted_comments', lazy='joined'),
+                                 lazy='dynamic',
+                                 cascade='all, delete-orphan')
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
