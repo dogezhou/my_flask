@@ -41,6 +41,9 @@ div.post-content {
 div.post-footer {
     text-align: right;
 }
+div.post-tag {
+    text-align: left;
+}
 ul.comments {
     list-style-type: none;
     padding: 0px;
