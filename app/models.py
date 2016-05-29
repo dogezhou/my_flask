@@ -336,7 +336,7 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
     post_tags = db.relationship('TagBelong',
-                                foreign_keys=[TagBelong.tag_id],
+                                foreign_keys=[TagBelong.post_id],
                                 backref=db.backref('posts', lazy='joined'),
                                 lazy='dynamic',
                                 cascade='all, delete-orphan')

@@ -110,6 +110,7 @@ def post(id):
         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
+    # 把一个post的所有tag传入模板
     return render_template('post.html', posts=[post], form=form,
                            comments=comments, pagination=pagination)
 

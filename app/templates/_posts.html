@@ -17,6 +17,18 @@
                 {{ post.body }}
                 {% endif %}
             </div>
+            <!-- 添加post标签 -->
+            <div class="post-tag">
+                {% for tag in post.post_tags.all() %}
+                <a href="{{ url_for('.edit', id=post.id) }}">
+                    <span class="label label-primary">{{ tag.tags.tag_name }}</span>
+                </a>
+                {% endfor %}
+                <!-- 增加添加标签方法 -->
+                <a href="{{ url_for('.edit', id=post.id) }}">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加标签
+                </a>
+            </div>
             <div class="post-footer">
                 {% if current_user == post.author %}
                 <a href="{{ url_for('.edit', id=post.id) }}">
