@@ -106,7 +106,7 @@ def post(id):
     if page == -1:
         page = (post.comments.count() - 1) / \
                current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
-    pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
+    pagination = post.comments.order_by(Comment.vote_num.desc()).paginate(
         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
@@ -254,6 +254,10 @@ def moderate_disable(id):
 def vote(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     v = Vote(voted_users=current_user._get_current_object(), voted_comments=comment)
+    if comment.vote_num is None:
+        comment.vote_num = 1
+    else:
+        comment.vote_num += 1
     db.session.add(v)
     return redirect(url_for('.post',
                             id=comment.post_id))
@@ -263,6 +267,7 @@ def vote(comment_id):
 def unvote(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     v = Vote.query.filter_by(voted_comments=comment).first()
+    comment.vote_num -= 1
     db.session.delete(v)
     return redirect(url_for('.post',
                             id=comment.post_id))

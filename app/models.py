@@ -399,7 +399,7 @@ class Comment(db.Model):
     disabled = db.Column(db.Boolean)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
-
+    vote_num = db.Column(db.Integer, default=0)
     vote_users = db.relationship('Vote',
                                  foreign_keys=[Vote.comment_id],
                                  backref=db.backref('voted_comments', lazy='joined'),
