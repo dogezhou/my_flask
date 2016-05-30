@@ -8,7 +8,7 @@ from app.decorators import admin_required, permission_required
 from flask import render_template, session, redirect, url_for, current_app, flash, request, make_response
 from .. import db
 from flask_login import login_required, current_user
-from ..models import User, Role, Permission, Post, Comment, Vote
+from ..models import User, Role, Permission, Post, Comment, Vote, Tag, TagBelong
 from ..email import send_email
 from . import main
 from .forms import NameForm, EditProfileForm, EditProfileAdminForm, PostForm, CommentForm
@@ -110,7 +110,6 @@ def post(id):
         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
-    # 把一个post的所有tag传入模板
     return render_template('post.html', posts=[post], form=form,
                            comments=comments, pagination=pagination)
 
@@ -248,6 +247,7 @@ def moderate_disable(id):
     return redirect(url_for('.moderate',
                             page=request.args.get('page', 1, type=int)))
 
+
 # 添加投票路由
 @main.route('/vote/<int:comment_id>')
 @login_required
@@ -262,6 +262,7 @@ def vote(comment_id):
     return redirect(url_for('.post',
                             id=comment.post_id))
 
+
 @main.route('/unvote/<int:comment_id>')
 @login_required
 def unvote(comment_id):
@@ -271,3 +272,18 @@ def unvote(comment_id):
     db.session.delete(v)
     return redirect(url_for('.post',
                             id=comment.post_id))
+
+
+@main.route('/showtag/<int:tag_id>')
+@login_required
+def show_tag(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    tag_posts = tag.tag_posts.filter_by(tag_id=tag.id).all()
+    posts = []
+    for tag_post in tag_posts:
+        post = Post.query.filter_by(id = tag_post.post_id).first()
+        posts.append(post)
+    page = request.args.get('page', 1, type=int)
+    return render_template('show_tag.html',
+                           tag = tag,
+                           posts = posts)

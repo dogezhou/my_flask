@@ -20,8 +20,8 @@
             <!-- 添加post标签 -->
             <div class="post-tag">
                 {% for tag in post.post_tags.all() %}
-                <a href="{{ url_for('.edit', id=post.id) }}">
-                    <span class="label label-primary">{{ tag.tags.tag_name }}</span>
+                <a href="{{ url_for('.show_tag', tag_id=tag.tags.id) }}">
+                    <span class="label label-primary" data-toggle="tooltip" title="{{ tag.tags.tag_body }}">{{ tag.tags.tag_name }}</span>
                 </a>
                 {% endfor %}
                 <!-- 增加添加标签方法 -->
@@ -50,3 +50,9 @@
     </li>
     {% endfor %}
 </ul>
+
+<script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
