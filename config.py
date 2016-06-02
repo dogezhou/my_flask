@@ -14,8 +14,8 @@ class Config:
     MAIL_SERVER = 'smtp.qq.com'
     MAIL_PORT = 25
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or'1243992216@qq.com'
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') 
     FLASKY_MAIL_SUBJECT_PREFIX = '[膜乎]'
     FLASKY_MAIL_SENDER = '膜乎 管理员 <1243992216@qq.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'doge.zhou@outlook.com'
