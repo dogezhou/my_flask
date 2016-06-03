@@ -13,13 +13,13 @@ from .forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordRese
 from flask import render_template, request, redirect, url_for, flash
 
 
-@auth.before_app_request
-def before_request():
-    # if current_user.is_authenticated:
-    #     current_user.ping()
-    if not current_user.confirmed:
-            # and request.endpoint[:5] != 'auth.':
-        return redirect(url_for('auth.unconfirmed'))
+# @auth.before_app_request
+# def before_request():
+#     # if current_user.is_authenticated:
+#     #     current_user.ping()
+#     if not current_user.confirmed:
+#             # and request.endpoint[:5] != 'auth.':
+#         return redirect(url_for('auth.unconfirmed'))
 
 
 @auth.route('/unconfirmed')
