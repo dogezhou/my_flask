@@ -46,3 +46,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 经管学院-信管121-209120937-周伟.rar
+venv
+.idea
+.env
+*.pyc

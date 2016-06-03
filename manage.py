@@ -3,6 +3,11 @@
 """
 __author__ = 'Wei Zhou'
 """
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 import os
 from app import create_app, db
 from flask_migrate import Migrate, MigrateCommand
